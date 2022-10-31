@@ -1,7 +1,13 @@
-import { Component, AfterViewInit } from '@angular/core';
-import { icon, Map, map, Marker, marker, tileLayer,  } from 'leaflet';
-import { BackendApiService } from 'src/app/services/backendApi/backend-api.service';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { icon, Map, map, Marker, marker, tileLayer, layerGroup, LayerGroup } from 'leaflet';
+import { Observable } from 'rxjs';
+import { startWith, map as mapOperator } from 'rxjs/operators';
+import { BackendApiService, Capital } from 'src/app/services/backendApi/backend-api.service';
 
+//******************************************
+//        Leaflet Icon
+//******************************************
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
 const shadowUrl = 'assets/marker-shadow.png';
@@ -23,19 +29,95 @@ Marker.prototype.options.icon = iconDefault;
   templateUrl: './points-in-map.component.html',
   styleUrls: ['./points-in-map.component.css']
 })
-export class PointsInMapComponent implements AfterViewInit {
+export class PointsInMapComponent implements AfterViewInit, OnInit {
   private map: Map | undefined;
+  private layerGroup: LayerGroup | undefined;
+  myControl = new FormControl('');
+  private states: string[] = [''];
+  filteredOptions: Observable<string[]> | undefined;
 
   constructor(private api : BackendApiService) { }
-  ngAfterViewInit(): void {
-    //this string map is the HTML element div id=map
-    this.initMap(this.map, this.popupPoints);
+
+  ngOnInit(): void {
+    //Get all states to fill the auto-complete html element
+    const findStates:string[] = []
+    this.api.getCapitals().subscribe({
+      next(value) {
+        findStates.push( ... value.capitals.reduce<string[]>((acc,curr)=>{
+                              acc.push(curr.state);
+                              return acc;
+                            },[])
+        );
+      },
+    });
+    findStates.unshift('All');
+    this.states = findStates;
+
+    //Handle the event when the value of autocomplet changes
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      mapOperator(value => this._filter(value || '')),
+    );
   }
 
-  initMap( mapa: Map | undefined, popupMaker: Function){
+  ngAfterViewInit(): void {
+    //this string map is the HTML element div id=map
+    this.initMap();
+  }
 
-    if(typeof  mapa === 'undefined') {
-      mapa = map('map', {
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.states.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  stateSelected(){
+    const stateName: string = this.myControl.getRawValue() ?? '';
+    const capital = this._findCapital(stateName);
+    if(typeof capital !== 'undefined') {
+      this._addMarkerToMap(capital);
+    }
+  }
+
+  private _findCapital(state:string): Capital[] {
+    let capital: Capital[] = [];
+    this.api.getCapitals().subscribe({
+      next(value) {
+        if(state === 'All') {
+          capital.push(...value.capitals);
+        }else{
+          const found = value.capitals.find((capital)=>capital.state === state);
+          if(typeof found !== 'undefined') {
+            capital.push(found);
+          }
+        }
+      },
+    });
+    return capital;
+  }
+
+  private _addMarkerToMap(capitals:Capital[], ){
+    //Remove all previous markers
+    this.layerGroup?.clearLayers();
+    //Create a new point in map
+    const markers: Marker[] = [];
+    capitals.forEach(capital=>{
+      const point = marker([Number(capital.lat),Number(capital.lon)]);
+      point.bindPopup(this._popupPoints(capital.capital,capital.state,capital.state_code));
+      markers.push(point);
+    });
+    if(typeof this.map !== 'undefined'){
+      this.layerGroup = layerGroup(markers);
+      this.layerGroup.addTo(this.map);
+    }
+  }
+
+  private _popupPoints(capital: string, state: string, state_code: string):string{
+    return `${capital} is capital of state ${state}(${state_code})`;
+  }
+
+  initMap(){
+    if(typeof  this.map === 'undefined') {
+      this.map = map('map', {
         center: [-10.3333333,-53.2],
         zoom: 3,
 
@@ -49,26 +131,7 @@ export class PointsInMapComponent implements AfterViewInit {
     });
 
     //Print the map
-    tiles.addTo(mapa);
-
-    //Print points in the map
-    const points: Marker[]=[];
-    this.api.getCapitals().subscribe({
-      next(result) {
-        result.capitals.forEach(capital=>{
-          const point = marker([Number(capital.lat),Number(capital.lon)]);
-          point.bindPopup(popupMaker(capital.capital,capital.state,capital.state_code));
-          if(typeof mapa !== 'undefined') point.addTo(mapa);
-        });
-      },
-      error(err) {
-        console.log(err);
-      },
-    });
-  }
-
-  popupPoints(capital: string, state: string, state_code: string):string{
-    return `${capital} is capital of state ${state}(${state_code})`;
+    tiles.addTo(this.map);
   }
 
 }

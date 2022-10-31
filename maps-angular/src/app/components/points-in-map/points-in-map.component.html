@@ -1,3 +1,29 @@
+<div class="options-container">
+  <div class="title">
+    <h2>Brazil's state and capitals</h2>
+  </div>
+  <div class="capital-select">
+    <div>
+      <p>Choose one state and its capital will be displayed at map below:</p>
+      <form class="example-form">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>List of states</mat-label>
+          <input type="text"
+                 aria-label="States"
+                 matInput
+                 [formControl]="myControl"
+                 [matAutocomplete]="auto">
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="this.stateSelected()">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+
+    </div>
+  </div>
+</div>
 <div class="map-container">
   <div class="map-frame">
     <div id="map"></div>
