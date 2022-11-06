@@ -1,9 +1,10 @@
 import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { icon, Map, map, Marker, marker, tileLayer, layerGroup, LayerGroup } from 'leaflet';
+import { icon, Map, map, Marker, marker, tileLayer, layerGroup, LayerGroup, geoJSON } from 'leaflet';
 import { Observable } from 'rxjs';
 import { startWith, map as mapOperator } from 'rxjs/operators';
 import { BackendApiService, Capital } from 'src/app/services/backendApi/backend-api.service';
+import { ShapeService } from 'src/app/services/shape/shape.service';
 
 //******************************************
 //        Leaflet Icon
@@ -34,9 +35,13 @@ export class PointsInMapComponent implements AfterViewInit, OnInit {
   private layerGroup: LayerGroup | undefined;
   myControl = new FormControl('');
   private states: string[] = [''];
+  private shape: any;
   filteredOptions: Observable<string[]> | undefined;
 
-  constructor(private api : BackendApiService) { }
+  constructor(
+    private api: BackendApiService,
+    private shapeService: ShapeService,
+  ) { }
 
   ngOnInit(): void {
     //Get all states to fill the auto-complete html element
@@ -63,6 +68,11 @@ export class PointsInMapComponent implements AfterViewInit, OnInit {
   ngAfterViewInit(): void {
     //this string map is the HTML element div id=map
     this.initMap();
+    this.shapeService.getBrazilShape().subscribe(shape=>{
+      this.shape=shape;
+      this.initShapes();
+    });
+
   }
 
   private _filter(value: string): string[] {
@@ -118,7 +128,7 @@ export class PointsInMapComponent implements AfterViewInit, OnInit {
   initMap(){
     if(typeof  this.map === 'undefined') {
       this.map = map('map', {
-        center: [-10.3333333,-53.2],
+        center: [-19.3333333,-53.2],
         zoom: 3,
 
      });
@@ -132,6 +142,14 @@ export class PointsInMapComponent implements AfterViewInit, OnInit {
 
     //Print the map
     tiles.addTo(this.map);
+  }
+
+  private initShapes() {
+    const stateLayer = geoJSON(this.shape);
+
+    if(typeof  this.map !== 'undefined') {
+      this.map.addLayer(stateLayer);
+    }
   }
 
 }

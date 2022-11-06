@@ -1,27 +1,21 @@
-# MapsAngular
+<h1 align="center">Geolocation: Leaflet and OpenStreetMap example with markers and boundaries</h1>
+<br>
+<br>
+<br>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.7.
+## Introduction - Eng
+This projects is a demo to show how to use geolocation with open-souces technologies like <a href="https://leafletjs.com/" target="_blank">Leaflet</a> and <a href="https://www.openstreetmap.org" target="_blank">OpenStreetMap</a>.  
+It consume a governamental API (<a href="https://servicodados.ibge.gov.br" target="_blank">IBGE</a>) to get the geoJson of Brazil and we can see a marker for a capital of each state we selected.
+<br>
+<br>
+## Introdução - Pt-Br
+Esse projeto é uma demonstração de como utilizar tecnologas de código aberto como <a href="https://leafletjs.com/" target="_blank">Leaflet</a> e o <a href="https://www.openstreetmap.org" target="_blank">OpenStreetMap</a> para geolocalização.  
+Consumimos uma API governamental (<a href="https://servicodados.ibge.gov.br" target="_blank">IBGE</a>) para pegar o geoJson do Brasil e também conseguimos ver a capital de cada estado que selecionarmos.
 
-## Development server
+<img src="https://github.com/muriloportugal/geolocation/tree/main/maps-angular/src/assets/data/geoLocation.jpg">
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## :robot: Tecnologias:
+- Leaflet
+- OpenStreetMap
+- Angular
+- IBGE data API

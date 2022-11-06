@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PointsInMapComponent } from './components/points-in-map/points-in-map.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ShapeService } from './services/shape/shape.service';
 
 /*******************************************************************
  * Material Modules
@@ -14,11 +15,13 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PointsInMapComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    ShapeService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

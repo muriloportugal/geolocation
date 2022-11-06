@@ -1,21 +1,57 @@
+
 .options-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  width: 90%;
+  margin: 1rem 0 0 3rem;
+  background: #EEEEEE;
+}
+
+.title{
+  width: 100%;
+  text-align: center;
+}
+
+h1 {position: relative;
+  margin: 0 -25px;
+  font-size: 40px;
+  background: #0088AA;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 0px #1A5D6E;
+  box-shadow: 0 0 10px #AAA;
+  padding: 0.5rem;
+}
+
+h1:before {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: -25px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-color: #1A5D6E transparent;
+  border-width: 25px 0 0 25px;
+  left: 0;
 }
 
 .capital-select{
   width: 100%;
-  margin-left: 3rem;
+  margin: 3rem 0 2rem 2rem;
 }
 
 .map-container {
-  position: absolute;
+  /* position: absolute;
   top: 10rem;
   left: 0;
   right: 0;
   bottom: 0;
-  margin: 2rem;
+  margin: 2rem; */
+  height: 25rem;
+  bottom: 0;
+  width: 100%;
 }
 
 .map-frame {
