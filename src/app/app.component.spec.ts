@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'maps-angular'`, () => {
+  it(`should have as title 'geolocation'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('maps-angular');
+    expect(app.title).toEqual('geolocation');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('maps-angular app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('geolocation app is running!');
   });
 });

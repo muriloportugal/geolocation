@@ -16,7 +16,7 @@ It consume a governamental API (<a href="https://servicodados.ibge.gov.br" targe
 Esse projeto é uma demonstração de como utilizar tecnologas de código aberto como <a href="https://leafletjs.com/" target="_blank">Leaflet</a> e o <a href="https://www.openstreetmap.org" target="_blank">OpenStreetMap</a> para geolocalização.  
 Consumimos uma API governamental (<a href="https://servicodados.ibge.gov.br" target="_blank">IBGE</a>) para pegar o geoJson do Brasil e também conseguimos ver a capital de cada estado que selecionarmos.
 
-<img src="https://github.com/muriloportugal/geolocation/blob/main/maps-angular/src/assets/data/geoLocation.jpg">
+<img src="https://github.com/muriloportugal/geolocation/blob/main/src/assets/data/geoLocation.jpg">
 
 ## :robot: Tecnologias:
 - Leaflet
