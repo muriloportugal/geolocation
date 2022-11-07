@@ -5,7 +5,7 @@
   align-items: center;
 
   width: 90%;
-  margin: 1rem 0 0 3rem;
+  margin: 1rem 1rem 0 2rem;
   background: #EEEEEE;
 }
 
@@ -39,7 +39,7 @@ h1:before {
 
 .capital-select{
   width: 100%;
-  margin: 3rem 0 2rem 2rem;
+  margin: 3rem 0.5rem 2rem 2rem;
 }
 
 .map-container {
